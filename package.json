@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "ts-loader": "^4.5.0",
+    "typescript": "^3.4.5",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0"
+  },
+  "private": true,
+  "name": "pwa_koinobori",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Syuparn/pwa_koinobori.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Syuparn/pwa_koinobori/issues"
+  },
+  "homepage": "https://github.com/Syuparn/pwa_koinobori#readme",
+  "description": ""
+}
