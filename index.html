@@ -5,25 +5,27 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes,maximum-scale=5">
 	<meta charset="UTF-8">
 	<title>🎏こいのぼり🎏</title>
-	<!--<link rel="stylesheet" href="style.css">-->
+	<link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
     <h1>sample</h1>
-    <table>
-        <tbody id="game_table">
-            <script>
-                (function (n_row, n_col){
-                    // HACK: Array(n+1) => [undefined, ..., undefined]
-                    // same as String.prototype.repeat() in ES6
-                    var repeat = function(str, n){ return Array(n + 1).join(str); }
-                    var rowStr = "<tr>" + repeat("<td>a</td>", n_col) + "</tr>";
-                    var tableStr = repeat(rowStr, n_row);
-                    document.getElementById("game_table").innerHTML = tableStr;
-                })(8, 8);
-            </script>
-        </tbody>
-    </table>
+    <center>
+        <table>
+            <tbody id="game_table">
+                <script>
+                    (function (n_row, n_col){
+                        // HACK: Array(n+1) => [undefined, ..., undefined]
+                        // same as String.prototype.repeat() in ES6
+                        var repeat = function(str, n){ return Array(n + 1).join(str); }
+                        var rowStr = "<tr>" + repeat("<td>　</td>", n_col) + "</tr>";
+                        var tableStr = repeat(rowStr, n_row);
+                        document.getElementById("game_table").innerHTML = tableStr;
+                    })(8, 8);
+                </script>
+            </tbody>
+        </table>
+    </center>
     <script src="js/main.js"></script>
 </body>
