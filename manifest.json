@@ -1,0 +1,17 @@
+{
+    "name"              : "🎏こいのぼり",
+    "short_name"        : "🎏",
+    "description"       : "こいのぼりのゲーム",
+    "start_url"         : "/?utm_source=homescreen",
+    "display"           : "standalone",
+    "orientation"       : "portrait",
+    "background_color"  : "#000000",
+    "theme_color"       : "#008000",
+    "icons": [
+      {
+        "src"           : "/img/icon.png",
+        "sizes"         : "192x192",
+        "type"          : "image/png"
+      }
+    ]
+  }
