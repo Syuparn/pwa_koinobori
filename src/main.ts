@@ -1,10 +1,12 @@
-import { GameBoardHandler } from "./board";
+import { GameBoardHandler } from "./handler";
+
 
 // HACK: solve module relation without webpack
 export {};
 
 let table: HTMLTableElement = <HTMLTableElement> document.getElementById('game_table');
+let succeededImg: HTMLImageElement = <HTMLImageElement> document.getElementById('succeededlogo');
 if (table != null) {
-    table.rows[1].cells[6].innerHTML = "s";
-    let handler = new GameBoardHandler(table);
+    let handler = new GameBoardHandler(table, succeededImg);
+    handler.buildHouse();
 }
