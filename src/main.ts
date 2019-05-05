@@ -13,12 +13,4 @@ if (table != null && succeededImg != null) {
     handler.addClicker(cells);
     
     handler.buildHouse();
-    handler.buildKoinobori(0);
-    handler.buildKoinobori(1);
-    handler.buildKoinobori(2);
-    handler.buildKoinobori(3);
-    handler.buildKoinobori(4);
-    handler.buildKoinobori(5);
-    handler.buildKoinobori(6);
-    handler.buildKoinobori(7);
 }
