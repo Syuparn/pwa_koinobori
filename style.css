@@ -2,7 +2,7 @@ table{
     font-size: 10vw;
 }
 
-.succeededlogo{
+#succeededlogo{
     opacity: 0;
     -moz-opacity: 0;
     width: 75vw;
