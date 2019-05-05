@@ -1,5 +1,5 @@
 import {GameBoard} from "./board";
-
+import {ClockTime} from "./clocktime";
 
 export class GameBoardHandler {
     nRow: number;
@@ -16,14 +16,28 @@ export class GameBoardHandler {
         this.succeededImg = new SucceededImgHandler(succeededImg);
     }
 
-    addClicker(cells: HTMLCollectionOf<HTMLTableDataCellElement>) {
+    addClicker(cells: HTMLCollectionOf<HTMLTableDataCellElement>, heightElem: HTMLSpanElement, clockTime: ClockTime) {
         // NOTE: [].forEace.call(arrLike, f) works like arr.forEach
         [].forEach.call(cells, (cell: HTMLTableDataCellElement, i: number) => {
             cell.addEventListener('click', () => {
-                let colIndex: number = i % this.nRow;
-                this.buildKoinobori(colIndex);
+                if (clockTime.left()) {
+                    let colIndex: number = i % this.nRow;
+                    this.buildKoinobori(colIndex);
+                    this.writeHeight(heightElem);
+                }
             });
         });
+    }
+
+    startHouseCPU(heightElem: HTMLSpanElement, clockTime: ClockTime) {
+        const maxIntervalMS: number = 500;
+        setTimeout(() => {
+            if (clockTime.left()) {
+                this.buildHouse();
+                this.writeHeight(heightElem);
+                this.startHouseCPU(heightElem, clockTime);
+            }
+        }, Math.random() * maxIntervalMS);
     }
 
     buildHouse(colIndex: number | undefined = undefined) {
@@ -54,17 +68,55 @@ export class GameBoardHandler {
             })
         });
     }
+
+    private writeHeight(heightElem: HTMLSpanElement) {
+        heightElem.innerHTML = (this.board.koinoboriHeight() * 10).toString();        
+    }
 }
 
 
 class SucceededImgHandler {
     img: HTMLImageElement;
+    visible: boolean;
 
     constructor(img: HTMLImageElement) {
         this.img = img;
+        this.visible = false;
     }
 
     switchVisibility(visible: boolean) {
         this.img.style.opacity = visible ? "1" : "0";
+        this.visible = visible;
+    }
+}
+
+
+export class TimeHandler {
+    time: ClockTime;
+    viewElem: HTMLElement;
+    readonly checkIntervalMS: number = 1000;
+
+    constructor(viewElem: HTMLElement) {
+        this.viewElem = viewElem;
+        this.time = new ClockTime();
+        this.time.tick(this.viewElem);
+    }
+
+    startCheck(board: GameBoard, succeededImgHandler: SucceededImgHandler) {
+        setTimeout(() => {
+            if (this.time.left()) {
+                this.changeSpeed(board, succeededImgHandler);
+                this.startCheck(board, succeededImgHandler);
+            }
+        }, this.checkIntervalMS);
+    }
+
+    private changeSpeed(board: GameBoard, succeededImgHandler: SucceededImgHandler) {
+        if (succeededImgHandler.visible) {
+            this.time.speed = Math.max(this.time.speed - 1, 1);
+        }
+        if (board.koinoboriHeight() <= board.baseHeight) {
+            this.time.speed++;
+        }
     }
 }

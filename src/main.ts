@@ -1,16 +1,22 @@
-import { GameBoardHandler } from "./handler";
+import { GameBoardHandler, TimeHandler } from "./handler";
 
 
-// HACK: solve module relation without webpack
-export {};
+let table: HTMLTableElement | null = <HTMLTableElement> document.getElementById('game_table');
+let succeededImg: HTMLImageElement | null = <HTMLImageElement> document.getElementById('succeededlogo');
+let timeElem: HTMLSpanElement | null = <HTMLSpanElement> document.getElementById('leftseconds');
+let heightElem: HTMLSpanElement | null = <HTMLSpanElement> document.getElementById('koinoboriheight');
 
-let table: HTMLTableElement = <HTMLTableElement> document.getElementById('game_table');
-let succeededImg: HTMLImageElement = <HTMLImageElement> document.getElementById('succeededlogo');
 
-if (table != null && succeededImg != null) {
-    let handler = new GameBoardHandler(table, succeededImg);
+if ([table, succeededImg, timeElem, heightElem].every((v) => (v != null))) {
+    // time in the game
+    let timeHandler = new TimeHandler(timeElem);
+    // cells with houses and koinoboris
+    let boardHandler = new GameBoardHandler(table, succeededImg);
+    // time speed changes depending on the board conditions
+    timeHandler.startCheck(boardHandler.board, boardHandler.succeededImg);
+    // put addEventListener to each cell in the game table
     let cells: HTMLCollectionOf<HTMLTableDataCellElement> = document.getElementsByTagName('td');
-    handler.addClicker(cells);
-    
-    handler.buildHouse();
+    boardHandler.addClicker(cells, heightElem, timeHandler.time);
+    // run CPU, which builds houses randomly
+    boardHandler.startHouseCPU(heightElem, timeHandler.time);
 }
