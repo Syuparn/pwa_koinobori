@@ -2,6 +2,10 @@ table{
     font-size: 7vw;
 }
 
+h1{
+    font-size: 7vw;
+}
+
 #succeededlogo{
     opacity: 0;
     -moz-opacity: 0;
