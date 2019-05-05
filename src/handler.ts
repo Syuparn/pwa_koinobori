@@ -7,6 +7,8 @@ export class GameBoardHandler {
     board: GameBoard;
     table: HTMLTableElement;
     succeededImg: SucceededImgHandler;
+    buildable: boolean;
+    readonly buildIntervalMS: number = 300;
 
     constructor(table: HTMLTableElement, succeededImg: HTMLImageElement) {
         this.table = table;
@@ -14,13 +16,14 @@ export class GameBoardHandler {
         this.nCol = table.rows[0].cells.length
         this.board = new GameBoard(this.nRow, this.nCol);
         this.succeededImg = new SucceededImgHandler(succeededImg);
+        this.buildable = true;
     }
 
     addClicker(cells: HTMLCollectionOf<HTMLTableDataCellElement>, heightElem: HTMLSpanElement, clockTime: ClockTime) {
         // NOTE: [].forEace.call(arrLike, f) works like arr.forEach
         [].forEach.call(cells, (cell: HTMLTableDataCellElement, i: number) => {
             cell.addEventListener('click', () => {
-                if (clockTime.left()) {
+                if (clockTime.left() && this.buildable) {
                     let colIndex: number = i % this.nRow;
                     this.buildKoinobori(colIndex);
                     this.writeHeight(heightElem);
@@ -31,13 +34,27 @@ export class GameBoardHandler {
 
     startHouseCPU(heightElem: HTMLSpanElement, clockTime: ClockTime) {
         const maxIntervalMS: number = 500;
+        let height: number = this.board.koinoboriHeight();
+        let maxLoop: number = 10 + Math.floor(height / 50);
+        let intervalMS: number = Math.random() * maxIntervalMS;
         setTimeout(() => {
             if (clockTime.left()) {
-                this.buildHouse();
-                this.writeHeight(heightElem);
+                let loopNum: number = Math.min(200 / (intervalMS + 1) + 1, 10);
+                for (let i: number = 0; i < loopNum; i++){
+                    this.buildHouse();
+                    this.writeHeight(heightElem);
+                }
+
+                if (height > this.board.houseHeight() + 5) {
+                    let colIndex = this.nCol * Math.random();
+                    for (let i: number = 0; i < (height - this.board.houseHeight()) * Math.random() * 3; i++) {
+                        this.buildHouse(colIndex);
+                        this.writeHeight(heightElem);
+                    }
+                }
                 this.startHouseCPU(heightElem, clockTime);
             }
-        }, Math.random() * maxIntervalMS);
+        }, Math.max(intervalMS, 200));
     }
 
     buildHouse(colIndex: number | undefined = undefined) {
@@ -53,6 +70,10 @@ export class GameBoardHandler {
         this.board.buildKoinobori(colIndex);
         this.updateTable();
         this.updateImg();
+        this.buildable = false;
+        setTimeout(() => {
+            this.buildable = true;
+        }, this.buildIntervalMS);
     }
 
     private updateImg() {
@@ -116,7 +137,7 @@ export class TimeHandler {
             this.time.speed = Math.max(this.time.speed - 1, 1);
         }
         if (board.koinoboriHeight() <= board.baseHeight) {
-            this.time.speed++;
+            this.time.speed += 3;
         }
     }
 }

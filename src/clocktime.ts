@@ -20,7 +20,6 @@ export class ClockTime {
         setTimeout(() => {
             if (this.timeMS > 0) {
                 this.timeMS -= this.intervalMS * this.speed;
-                console.log(this.speed);
                 writeTo.innerHTML = this.toString();
                 this.tick(writeTo);
             } else {
