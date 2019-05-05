@@ -54,6 +54,7 @@ export class GameBoard {
         if (this.cells.slice(-1)[0].some((cell) => (!cell.isEmpty))) {
             this.cells = this.cells.slice(1)
                 .concat([Array<Cell>(this.nCol).fill(new EmptyCell())]);
+            this.baseHeight++;
         }
     }
 

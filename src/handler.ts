@@ -2,28 +2,43 @@ import {GameBoard} from "./board";
 
 
 export class GameBoardHandler {
+    nRow: number;
+    nCol: number;
     board: GameBoard;
     table: HTMLTableElement;
     succeededImg: SucceededImgHandler;
 
     constructor(table: HTMLTableElement, succeededImg: HTMLImageElement) {
         this.table = table;
-        this.board = new GameBoard(table.rows.length, table.rows[0].cells.length);
+        this.nRow = table.rows.length;
+        this.nCol = table.rows[0].cells.length
+        this.board = new GameBoard(this.nRow, this.nCol);
         this.succeededImg = new SucceededImgHandler(succeededImg);
     }
 
-    buildHouse() {
-        let colIndex: number = Math.floor(Math.random() * this.board.nCol);
+    addClicker(cells: HTMLCollectionOf<HTMLTableDataCellElement>) {
+        // NOTE: [].forEace.call(arrLike, f) works like arr.forEach
+        [].forEach.call(cells, (cell: HTMLTableDataCellElement, i: number) => {
+            cell.addEventListener('click', () => {
+                let colIndex: number = i % this.nRow;
+                this.buildKoinobori(colIndex);
+            });
+        });
+    }
+
+    buildHouse(colIndex: number | undefined = undefined) {
+        if (colIndex == undefined) {
+            colIndex = Math.floor(Math.random() * this.board.nCol);
+        }
         this.board.buildHouse(colIndex);
-        this.board.buildKoinobori(colIndex);
-        this.board.buildKoinobori(1);
-        this.board.buildKoinobori(1);
         this.updateTable();
         this.updateImg();
     }
 
-    buildKoinobori() {
-
+    buildKoinobori(colIndex: number) {
+        this.board.buildKoinobori(colIndex);
+        this.updateTable();
+        this.updateImg();
     }
 
     private updateImg() {
