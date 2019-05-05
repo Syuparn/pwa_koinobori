@@ -33,11 +33,13 @@ export class GameBoard {
     }
 
     koinoboriHeight(): number {
-        return this.baseHeight + this.cellsHeight(Koinobori);
+        let cellsHeight: number = this.cellsHeight(Koinobori);
+        return cellsHeight == -1 ? 0 : this.baseHeight + cellsHeight;
     }
 
     houseHeight(): number {
-        return this.baseHeight + this.cellsHeight(House);
+        let cellsHeight: number = this.cellsHeight(House);
+        return cellsHeight == -1 ? 0 : this.baseHeight + cellsHeight;
     }
 
     private buildCell(colIndex: number, cell: Cell) {
