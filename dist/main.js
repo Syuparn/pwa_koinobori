@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/board.ts":
+/*!**********************!*\
+  !*** ./src/board.ts ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nclass GameBoardHandler {\r\n    constructor(table) {\r\n        this.table = table;\r\n        this.board = new GameBoard(table.rows.length, table.rows[0].cells.length);\r\n    }\r\n}\r\nexports.GameBoardHandler = GameBoardHandler;\r\nclass GameBoard {\r\n    constructor(nRow, nCol) {\r\n        console.log(nRow, nCol);\r\n        this.cells = new Array(nRow)\r\n            .fill(new Array(nCol).fill(0));\r\n        //this.cells = new Array<number[]>(nRow)\r\n        //    .map(() => (new Array<number>(nCol).map(() => (0))));\r\n        console.log(this.cells);\r\n        //console.log(new Array<number>(nCol).map(() => (0)));\r\n        //console.log(new Array<number[]>(nRow));\r\n        console.log([1, 2].map(() => (0)));\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack:///./src/board.ts?");
+
+/***/ }),
+
 /***/ "./src/main.ts":
 /*!*********************!*\
   !*** ./src/main.ts ***!
@@ -94,7 +106,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar table = document.getElementById('game_table');\r\nif (table != null) {\r\n    console.log(table.rows[0]);\r\n    console.log(table.rows[0].cells[2]);\r\n    console.log(table.rows.length);\r\n    console.log(table.rows[0].cells.length);\r\n    table.rows[1].cells[6].innerHTML = \"s\";\r\n}\r\n\n\n//# sourceURL=webpack:///./src/main.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst board_1 = __webpack_require__(/*! ./board */ \"./src/board.ts\");\r\nlet table = document.getElementById('game_table');\r\nif (table != null) {\r\n    table.rows[1].cells[6].innerHTML = \"s\";\r\n    let handler = new board_1.GameBoardHandler(table);\r\n}\r\n\n\n//# sourceURL=webpack:///./src/main.ts?");
 
 /***/ })
 
