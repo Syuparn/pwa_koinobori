@@ -18,14 +18,10 @@
         <table>
             <tbody id="game_table">
                 <script>
-                    (function (n_row, n_col){
-                        // HACK: Array(n+1) => [undefined, ..., undefined]
-                        // same as String.prototype.repeat() in ES6
-                        var repeat = function(str, n){ return Array(n + 1).join(str); }
-                        var rowStr = "<tr>" + repeat("<td>　</td>", n_col) + "</tr>";
-                        var tableStr = repeat(rowStr, n_row);
+                    ((nRow = 8, nCol = 8) => {
+                        var tableStr = ("<tr>" + "<td> </td>".repeat(nCol) + "</tr>").repeat(nRow);
                         document.getElementById("game_table").innerHTML = tableStr;
-                    })(8, 8);
+                    })();
                 </script>
             </tbody>
         </table>
